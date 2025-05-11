@@ -27,6 +27,7 @@ cache_file = "llm_cache.json"
 
 # By default, we Google Gemini 2.5 pro, as it shows great performance for code understanding
 def call_llm(prompt: str, use_cache: bool = True) -> str:
+    print(f"calling llm!")
     # Log the prompt
     logger.info(f"PROMPT: {prompt}")
 
@@ -56,10 +57,14 @@ def call_llm(prompt: str, use_cache: bool = True) -> str:
 
     # You can comment the previous line and use the AI Studio key instead:
     client = genai.Client(
-        api_key=os.getenv("GEMINI_API_KEY", ""),
+        api_key=os.getenv("GEMINI_API_KEY", "AIzaSyBhaXzyaRo4xARysVJLeFWNpOhPnRSShGQ"),
     )
     model = os.getenv("GEMINI_MODEL", "gemini-2.5-pro-exp-03-25")
     # model = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-preview-04-17")
+    
+    # Count tokens before sending
+    # token_count = client.count_tokens(prompt)
+    # print(f"// --------------------------------------- TOKEN COUNT: {token_count}")
     
     response = client.models.generate_content(model=model, contents=[prompt])
     response_text = response.text
